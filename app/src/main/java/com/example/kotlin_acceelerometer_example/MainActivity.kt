@@ -1,3 +1,5 @@
+// Ejemplo de uso de Kotlin con acelerometro
+
 package com.example.kotlin_acceelerometer_example
 
 import android.content.pm.ActivityInfo
@@ -11,7 +13,6 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-
 
 class MainActivity : AppCompatActivity(), SensorEventListener {
 
