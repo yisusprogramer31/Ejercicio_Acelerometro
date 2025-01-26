@@ -1,5 +1,3 @@
-// APLICACION NIVEL BURBUJA - MEI
-// ALUMNO: MARESCA, JESUS MARIA
 package com.example.kotlin_acceelerometer_example
 
 import android.hardware.Sensor
@@ -8,27 +6,39 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 
 class MainActivity : AppCompatActivity(), SensorEventListener {
 
     private lateinit var sensorManager: SensorManager
     private var accelerometer: Sensor? = null
-    private lateinit var bubbleView: ImageView
+
+    private lateinit var xValue: TextView
+    private lateinit var yValue: TextView
+    private lateinit var zValue: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        bubbleView = findViewById(R.id.bubbleView)
+        // Vincular los TextViews de la UI
+        xValue = findViewById(R.id.x_value)
+        yValue = findViewById(R.id.y_value)
+        zValue = findViewById(R.id.z_value)
 
+        // Configurar el SensorManager y el acelerómetro
         sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+
+        if (accelerometer == null) {
+            Toast.makeText(this, "Acelerómetro no disponible", Toast.LENGTH_LONG).show()
+        }
     }
 
     override fun onResume() {
         super.onResume()
+        // Registrar el listener del sensor
         accelerometer?.let {
             sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_UI)
         }
@@ -36,6 +46,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
     override fun onPause() {
         super.onPause()
+        // Desregistrar el listener del sensor
         sensorManager.unregisterListener(this)
     }
 
@@ -43,21 +54,20 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         event?.let {
             val x = it.values[0]
             val y = it.values[1]
+            val z = it.values[2]
 
-            // Map the accelerometer values to screen coordinates
-            val parentView = bubbleView.parent as View
-            val centerX = parentView.width / 2
-            val centerY = parentView.height / 2
+            // Actualizar los valores en la UI
+            xValue.text = "X: $x"
+            yValue.text = "Y: $y"
+            zValue.text = "Z: $z"
 
-            val bubbleX = centerX - x * 50 // Adjust sensitivity as needed
-            val bubbleY = centerY + y * 50
-
-            bubbleView.x = bubbleX.toFloat()
-            bubbleView.y = bubbleY.toFloat()
+            // Detectar un giro rápido
+            val accelerationMagnitude = Math.sqrt((x * x + y * y + z * z).toDouble())
+            if (accelerationMagnitude > 30) { // Umbral de aceleración rápida
+                Toast.makeText(this, "¡Giro rápido detectado!", Toast.LENGTH_SHORT).show()
+            }
         }
     }
-
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-        // We don't need to handle accuracy changes for this app
     }
 }

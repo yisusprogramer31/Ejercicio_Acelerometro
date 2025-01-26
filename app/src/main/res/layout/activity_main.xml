@@ -1,25 +1,39 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp">
 
-    <!-- Fondo del nivel para guiar -->
+    <TextView
+        android:id="@+id/x_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="X: 0.0"
+        android:textSize="18sp"
+        android:layout_marginBottom="8dp" />
 
-    <!-- La burbuja -->
+    <TextView
+        android:id="@+id/y_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Y: 0.0"
+        android:textSize="18sp"
+        android:layout_marginBottom="8dp" />
 
-    <ImageView
-        android:id="@+id/backgroundView"
+    <TextView
+        android:id="@+id/z_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Z: 0.0"
+        android:textSize="18sp"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:id="@+id/textView2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitXY"
-        android:src="@drawable/level_background" />
+        android:layout_height="wrap_content"
+        android:text="Valores actuales de acelerometros XYZ" />
 
-    <ImageView
-        android:id="@+id/bubbleView"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/bubble"
-        android:layout_centerInParent="true" />
-
-
-</RelativeLayout>
+</LinearLayout>
